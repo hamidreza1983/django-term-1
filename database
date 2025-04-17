@@ -1,0 +1,19 @@
+Table Pricing {
+  id int pk
+  title char
+  amount positivint
+  items manytomany
+  status boolean
+  created_at datetime
+  updated_at datetime
+}
+
+Table Items {
+  id int pk
+  content char 
+  status boolead
+  created_at datetime
+  updated_at datetime
+}
+
+Ref: "Pricing"."items" < "Items"."id"

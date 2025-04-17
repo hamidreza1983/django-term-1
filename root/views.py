@@ -10,3 +10,7 @@ def contact(request):
 
 def about(request):
     return render(request, "home/about.html")
+
+
+def pricing(request):
+    return render(request, "home/pricing.html")
