@@ -1,3 +1,12 @@
+Table User {
+  id int pk
+  username char 
+  password char
+  is_staff bool
+  created_at datetime
+  updated_at datetime
+}
+
 Table Pricing {
   id int pk
   title char
@@ -11,6 +20,15 @@ Table Pricing {
 Table Items {
   id int pk
   content char 
+  status boolead
+  created_at datetime
+  updated_at datetime
+}
+
+Table Question {
+  id int pk
+  question text
+  answer text
   status boolead
   created_at datetime
   updated_at datetime
