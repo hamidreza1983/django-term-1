@@ -1,14 +1,12 @@
 from django.shortcuts import render
-from .models import Pricing, FrequnlyQuestion
+from .models import Pricing, Leader
 
 # Create your views here.
 
 def home(request):
     pricings = Pricing.objects.filter(status=True).order_by("-created_at")
-    questions = FrequnlyQuestion.objects.filter(status=True)
     context={
         "pricing" : pricings,
-        "questions" : questions
         }
     return render(request, "home/index.html", context=context)
 
@@ -16,7 +14,11 @@ def contact(request):
     return render(request, "home/contact.html")
 
 def about(request):
-    return render(request, "home/about.html")
+    leaders = Leader.objects.filter(status=True)
+    context={
+        "leaders" : leaders,
+        }
+    return render(request, "home/about.html", context=context)
 
 
 def pricing(request):
