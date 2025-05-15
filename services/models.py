@@ -10,6 +10,9 @@ class Category(models.Model):
     
 class Specials(models.Model):
     name = models.CharField(max_length=200)
+    content = models.TextField(default="test")
+    status = models.BooleanField(default=True)
+    #icon = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name

@@ -6,6 +6,56 @@ Table User {
   created_at datetime
   updated_at datetime
 }
+Table Team {
+  id int pk
+  image image 
+  name char
+  status bool
+  skills mtm
+  stars fk
+  desc text
+  created_at datetime
+  updated_at datetime
+}
+Table skills {
+  id int pk
+  title char
+  status bool
+  created_at datetime
+  updated_at datetime
+}
+
+Table stars {
+  id int pk
+  count int
+}
+Table category {
+  id int pk
+  name char
+}
+Table specials {
+  id int pk
+  name char
+  content char
+  status bool
+}
+
+
+Table leader {
+  id int pk
+  image image 
+  name char
+  status bool
+  skills mtm
+  twitter char
+  facebook char
+  instagram char
+  linkedin char
+  desc text
+  created_at datetime
+  updated_at datetime
+}
+
 
 Table Pricing {
   id int pk
@@ -34,4 +84,32 @@ Table Question {
   updated_at datetime
 }
 
+Table Services {
+    image image
+    stitle char
+    content text
+    ltitle char
+    desc1 text
+    desc2 text
+    category mtm
+    specials mtm
+    status bool
+    created_at datetime
+    updated_at datetime
+}
+
 Ref: "Pricing"."items" < "Items"."id"
+
+Ref: "leader"."skills" < "skills"."id"
+
+Ref: "Team"."stars" < "stars"."id"
+
+Ref: "Team"."skills" < "skills"."id"
+
+Ref: "Team"."nqame" < "User"."id"
+
+Ref: "leader"."name" < "User"."id"
+
+Ref: "Services"."category" < "category"."id"
+
+Ref: "Services"."specials" < "specials"."id"

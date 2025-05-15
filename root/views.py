@@ -4,11 +4,7 @@ from .models import Pricing, Leader
 # Create your views here.
 
 def home(request):
-    pricings = Pricing.objects.filter(status=True).order_by("-created_at")
-    context={
-        "pricing" : pricings,
-        }
-    return render(request, "home/index.html", context=context)
+    return render(request, "home/index.html")
 
 def contact(request):
     return render(request, "home/contact.html")
