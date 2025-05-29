@@ -5,7 +5,7 @@ app_name = "root"
 
 urlpatterns = [
     path("" , home, name="home"),
-    path("contact" , contact, name="contact"),
-    path("about" , about, name="about"),
-    path("pricing" , pricing, name="pricing")
+    path("contact/" , contact, name="contact"),
+    path("about/" , about, name="about"),
+    path("pricing/" , pricing, name="pricing")
 ]
