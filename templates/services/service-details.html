@@ -52,6 +52,21 @@
               {{service.desc2}}.
             </p>
           </div>
+          {% for comment in service.get_comments  %}
+          <p>{{comment.name}}:{{ comment.message }}</p>
+          {% endfor %}
+          <form method=post>
+            {% csrf_token %}
+            <p><input type="hidden" name="service" value={{service.id}}></p>
+            <p><input type="text" name="name" placeholder="name"></p>
+            <p><input type="text" name="message" placeholder="your comment"></p>
+            <button type="submit">send comment</button>
+          </form>
+          {% if messages %}
+            {% for message in messages %}
+                <h3 style="color: red;"> {{message}}</h3>
+            {% endfor %}
+          {% endif %}
 
         </div>
 

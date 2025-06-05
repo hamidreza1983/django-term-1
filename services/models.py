@@ -38,3 +38,19 @@ class Services(models.Model):
 
     def __str__(self):
         return self.stitle
+    
+    def get_comments(self):
+        return self.comments.filter(status=True)
+
+
+class Comments(models.Model):
+    service = models.ForeignKey(Services, on_delete=models.CASCADE, related_name="comments")
+    name = models.CharField(max_length=150)
+    message = models.TextField()
+    status = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.service.stitle
+

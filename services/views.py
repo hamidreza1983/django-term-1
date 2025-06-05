@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import Services, Specials
+from django.contrib import messages
 
 
 
@@ -24,18 +25,33 @@ def services(request, **kwargs):
     }
     return render(request, "services/services.html", context=context)
 
-
+from .forms import CommnetsForm
 def service_detail(request, id):
-    try:
+    if request.method == "GET":
+        try:
+            service = Services.objects.get(pk=id)
+            service.counted_view += 1
+            service.save()
+            form = CommnetsForm()
+            context = {
+                "service" : service,
+                "form" : form
+            }
+            return render(request, "services/service-details.html", context=context)
+        except:
+            return render(request, "home/404.html", status=404)
+    else:
         service = Services.objects.get(pk=id)
-        service.counted_view += 1
-        service.save()
-        context = {
-            "service" : service
-        }
-        return render(request, "services/service-details.html", context=context)
-    except:
-        return render(request, "home/404.html", status=404)
+        form = CommnetsForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.add_message(request, messages.SUCCESS, "your comment received successfully and ...")
+            return redirect (f"http://127.0.0.1:8000/services/detail/{service.id}")
+        else:
+            messages.add_message(request, messages.ERROR, "input data is not valid")
+            return redirect (f"http://127.0.0.1:8000/services/detail/{service.id}")
+
+
 
 def service_like(request, id):
     try:
