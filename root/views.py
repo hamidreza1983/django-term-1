@@ -4,6 +4,7 @@ from services.models import Services
 from django.contrib import messages
 from .forms import ContactUsForm
 
+
 # Create your views here.
 
 def home(request):
@@ -40,3 +41,6 @@ def about(request):
 
 def pricing(request):
     return render(request, "home/pricing.html")
+
+def quote(request):
+    return render(request, "home/get-a-quote.html")

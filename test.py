@@ -1,22 +1,27 @@
-list1 = (i for i in range (10))
+
+def star(func):
+    def wrraper():
+        print ("*********")
+        func()
+        print ("*********")
+    return wrraper
 
 
-for i in list1:
-    print (i)
+@star
+def test1():
+    print ("this is first number")
 
-print ("----------------------------")
+@star
+def test2():
+    print ("this is second number")
 
-for i in list1:
-    print (i)
 
-print ("----------------------------")
+@star
+def test3():
+    print ("this is third number")
 
-for i in list1:
-    print (i)
 
-print ("----------------------------")
 
-for i in list1:
-    print (i)
-
-print ("----------------------------")
+test1()
+test2()
+test3()
