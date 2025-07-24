@@ -4,14 +4,37 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import password_validation, update_session_auth_hash
-from django.contrib.auth.models import User
 from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
 from django.utils.encoding import force_bytes
 from django.core.mail import send_mail
-
+from .models import User
 
 # Create your views here.
+from .forms import LoginWithEmailForm
+def login_with_email_view(request):
+    if request.method == "GET":
+        form = LoginWithEmailForm()
+        context = {
+            'form' : form
+        }
+        return render (request, "accounts/login.html", context=context)
+    else:
+        form = LoginWithEmailForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data["email"]
+            password = form.cleaned_data["password"]
+            username = User.objects.get(email=email).username
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect("/")
+            else:
+                messages.add_message(request, messages.ERROR, "username or password is not valid")
+                return redirect(request.path_info)
+        else:
+            messages.add_message(request, messages.ERROR, "input data is not valid")
+            return redirect(request.path_info)
 
 
 def login_view(request):
@@ -141,4 +164,27 @@ def password_reset_confirm(request, uid, token):
                 'form' : form
             }
             return render(request, "accounts/reset_password_confirm.html", context=context)
+        else:
+            form = ResetPasswordForm(request.POST)
+            if form.is_valid():
+                password = form.cleaned_data['password']
+                confirm = form.cleaned_data['confirm']
+                if password == confirm and not user.check_password(password):
+                    try:
+                        password_validation.validate_password(password)
+                        user.set_password(password)
+                        user.save()
+                        return render(request, "accounts/reset_password_complete.html")
+                    except:
+                        messages.add_message(request, messages.ERROR, "new pass not valid")
+                        return redirect(request.path_info)
+                else:
+                    messages.add_message(request, messages.ERROR, "pass and conf must be same")
+                    return redirect(request.path_info)
+            else:
+                messages.add_message(request, messages.ERROR, "input data is not valid")
+                return redirect(request.path_info)
+
+
+
 

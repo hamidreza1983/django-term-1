@@ -1,11 +1,12 @@
 from root.models import Team, FrequnlyQuestion, Leader, Pricing
-from django.contrib.auth.models import User
+from accounts.models import User
 from services.models import Category
 
 
 def repeated_objects(request):
     pricings = Pricing.objects.filter(status=True).order_by("-created_at")
     users_count = User.objects.all().count()
+    number = 1000000
     teams = Team.objects.filter(status=True)
     categories = Category.objects.all()
     team_count = teams.count()
@@ -17,5 +18,6 @@ def repeated_objects(request):
         "uc" : users_count,
         "categories" : categories,
         "pricing" : pricings,
+        "number": number,
     }
     return context
